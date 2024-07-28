@@ -6,8 +6,6 @@
 
 ```tree
 math-model
-├─ .vscode
-│  └─ settings.json
 ├─ assets 附件：流程图等
 ├─ docs 笔记
 ├─ LICENSE
