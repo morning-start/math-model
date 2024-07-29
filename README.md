@@ -9,7 +9,7 @@ math-model
 ├─ assets 附件：流程图等
 ├─ LICENSE
 ├─ README.md
-└─ src 代码+笔记
+└─ notebooks 代码+笔记
 ```
 
 ## 参考
