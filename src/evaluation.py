@@ -166,6 +166,13 @@ class AHP:
         group = {k: v for k, v in sorted(group.items(), key=lambda e: e[0])}
         return group
 
+    def calculate_score(self, row: np.ndarray):
+        """计算得分"""
+        row = np.array(row)
+        if len(row) != len(self.W):
+            raise ValueError("The length of row is not equal to the length of W.")
+        return self.W @ row
+
     def run(self, threshold=0.1) -> list[Criterion]:
         """融合权重并排序"""
         # 判断是否有一致性不合格的矩阵
@@ -186,7 +193,7 @@ class AHP:
             return z[z != 0]
 
         w = reduce(multi_layer_weight, group_pad.values())
-        self.W = w
+        self.W = w.flatten()
 
 
 if __name__ == "__main__":
