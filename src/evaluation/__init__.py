@@ -3,6 +3,7 @@ from .entropy_weight_method import EWM
 
 __all__ = [
     "AHP",
+    "EWM",
 ]
 __version__ = "0.0.1"
 
