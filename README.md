@@ -14,6 +14,8 @@ sys.path.extend([cur_dir, root_dir])
 # sys.path
 ```
 
+也可以学习如何设置 jupyter 的初始路径，改为工作目录。
+
 ## 项目结构
 
 ```tree
