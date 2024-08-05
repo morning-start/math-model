@@ -34,3 +34,22 @@ def z_score(data: ArrayLike) -> np.ndarray:
     normalized_data = (data - mean) / std_dev
 
     return normalized_data
+
+
+def euclidean(matrix):
+    """
+    对输入矩阵进行欧氏范数归一化处理。
+
+    Parameters:
+    ---
+    matrix: np.ndarray
+        需要归一化的原始数据矩阵。
+
+    Returns:
+    ---
+    normalized_matrix: np.ndarray
+        归一化后的数据矩阵。
+    """
+    normalized_matrix = matrix / np.linalg.norm(matrix, axis=0)
+
+    return normalized_matrix

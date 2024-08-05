@@ -6,7 +6,7 @@ from functools import reduce
 
 import numpy as np
 
-from src.norm import prob as norm_func
+from ..norm import prob as norm_func
 
 
 class AHP:

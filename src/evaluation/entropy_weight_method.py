@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.norm import min_max, prob
+from ..norm import min_max, prob
 
 
 class EWM:
@@ -11,8 +11,13 @@ class EWM:
     """
 
     def __init__(self, matrix: np.ndarray):
+        """
+        Parameters
+        ---
+        matrix: np.ndarray
+            已经正向化后的矩阵
+        """
         self.M = matrix
-        self.m, self.n = matrix.shape
         self.P = None
         """评价指标矩阵"""
         self.E = None
@@ -20,28 +25,26 @@ class EWM:
         self.W = None
         """权重向量"""
 
-    def judgment_matrix_proportion(self):
+    def standardize(self, stand_func=prob):
         """
         计算指标判断矩阵的占比
         """
-        X = min_max(self.M)
-        P = prob(X)
+        P = stand_func(self.M)
         self.P = P
 
-    def calculate_entropy_weight(self, offset=1):
+    def calculate_entropy(self, offset=1):
         """计算熵权"""
-        P = self.P + offset
-        E = -np.sum(P * np.log(P), axis=0) / np.log(self.m)
+        E = -np.sum(self.P * np.log(self.P + offset), axis=0) / np.log(self.m)
         self.E = E
 
-    def calculate_weight(self):
+    def calculate_weight(self, norm_func=prob):
         """计算权重"""
-        W = prob(1 - self.E)
+        W = norm_func(1 - self.E)
         self.W = W
 
     def run(self):
-        self.judgment_matrix_proportion()
-        self.calculate_entropy_weight()
+        self.standardize()
+        self.calculate_entropy()
         self.calculate_weight()
         return self.W
 
