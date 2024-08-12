@@ -25,27 +25,27 @@ class EWM:
         self.W = None
         """权重向量"""
 
-    def standardize(self, stand_func=prob):
+    def normalize(self, stand_func=prob):
         """
         计算指标判断矩阵的占比
         """
         P = stand_func(self.M)
         self.P = P
 
-    def calculate_entropy(self, offset=1):
+    def calc_entropy(self, offset=1):
         """计算熵权"""
         E = -np.sum(self.P * np.log(self.P + offset), axis=0) / np.log(self.m)
         self.E = E
 
-    def calculate_weight(self, norm_func=prob):
+    def calc_weight(self, norm_func=prob):
         """计算权重"""
         W = norm_func(1 - self.E)
         self.W = W
 
     def run(self):
-        self.standardize()
-        self.calculate_entropy()
-        self.calculate_weight()
+        self.normalize()
+        self.calc_entropy()
+        self.calc_weight()
         return self.W
 
 

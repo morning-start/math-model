@@ -27,7 +27,7 @@ class TOPSIS:
         self.ideal_solution: tuple = None
         """理想解，(positive, negative)"""
 
-    def standardize(self, norm_func=norm.euclidean):
+    def normalize(self, norm_func=norm.euclidean):
         """标准化决策矩阵"""
         self.Z = norm_func(self.matrix)
 
@@ -35,13 +35,13 @@ class TOPSIS:
         """计算加权后的决策矩阵"""
         self.weighted_matrix = self.Z * self.weights.reshape(-1, 1)
 
-    def calculate_ideal_solution(self):
+    def calc_ideal_solution(self):
         """计算理想解和负理想解"""
         positive_solution = np.max(self.weighted_matrix * self.signs, axis=0)
         negative_solution = np.min(self.weighted_matrix * ~self.signs, axis=0)
         self.ideal_solution = (positive_solution, negative_solution)
 
-    def calculate_distance(self, distance_func=distance.euclidean):
+    def calc_distance(self, distance_func=distance.euclidean):
         """计算每个方案与理想解和负理想解的距离"""
         positive_solution, negative_solution = self.ideal_solution
         distance_positive = distance_func(self.weighted_matrix, positive_solution, 1)
@@ -49,7 +49,7 @@ class TOPSIS:
         self.distance_ideal = (distance_positive, distance_negative)
         print(distance_positive, distance_negative)
 
-    def calculate_closeness(self):
+    def calc_closeness(self):
         """计算相对贴近度"""
         distance_positive, distance_negative = self.distance_ideal
         closeness = distance_negative / (distance_positive + distance_negative)
@@ -63,11 +63,11 @@ class TOPSIS:
         return ranking
 
     def run(self):
-        self.standardize()
+        self.normalize()
         self.weighed_matrix()
-        self.calculate_ideal_solution()
-        self.calculate_distance()
-        self.calculate_closeness()
+        self.calc_ideal_solution()
+        self.calc_distance()
+        self.calc_closeness()
         return self.rank()
 
 

@@ -6,7 +6,7 @@ from functools import reduce
 
 import numpy as np
 
-from ..norm import prob as norm_func
+from .. import norm
 
 
 class AHP:
@@ -66,7 +66,7 @@ class AHP:
             else:
                 raise ValueError("The matrix is not a valid matrix.")
 
-        def calculate(self) -> tuple[float, np.ndarray]:
+        def calculate(self, norm_func=norm.prob) -> tuple[float, np.ndarray]:
             """
             一致性检验+计算权重
 
@@ -166,12 +166,13 @@ class AHP:
         group = {k: v for k, v in sorted(group.items(), key=lambda e: e[0])}
         return group
 
-    def calculate_score(self, row: np.ndarray):
+    def calc_score(self, data: np.ndarray, norm_func=lambda x: x):
         """计算得分"""
-        row = np.array(row)
-        if len(row) != len(self.W):
+        data = np.array(data)
+        data = norm_func(data)
+        if len(data) != len(self.W):
             raise ValueError("The length of row is not equal to the length of W.")
-        return self.W @ row
+        return self.W @ data
 
     def run(self, threshold=0.1) -> list[Criterion]:
         """融合权重并排序"""
